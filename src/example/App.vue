@@ -86,13 +86,13 @@
           {{ scope.row.keepAlive ? "在线" : "离线" }}
         </div>
       </template>
-      <!-- <template #card="{ scope }">
+      <template #card="{ scope }">
         <div>卡片自定义模板</div>
-      </template> -->
+      </template>
       <template #handle>
         <div>
-          <el-button link>查看</el-button>
-          <el-button link><span>删除</span></el-button>
+          <el-button type="primary" link>查看</el-button>
+          <el-button type="primary" link><span>删除</span></el-button>
         </div>
       </template>
     </ElTableChen>
@@ -125,7 +125,6 @@ const elTableChenConfig = reactive({
   },
   responseFn: function (res) {
     // ajax请求成功后的回调函数,如果没有配置则用全局的回调或则默认的回调
-    console.log(66, this);
     this.dataSource.length = 0;
     if (res && res.data && Array.isArray(res.data)) {
       this.dataSource.splice(0, 0, ...(res.data || []));
@@ -152,7 +151,7 @@ const elTableChenConfig = reactive({
   },
   tableConfig: {
     // 同el-table表格属性配置https://element-plus.gitee.io/zh-CN/component/table.html#table-%E5%B1%9E%E6%80%A7
-    size: "small",
+    size: "default",
   },
   cardConfig: {
     // 卡片配置

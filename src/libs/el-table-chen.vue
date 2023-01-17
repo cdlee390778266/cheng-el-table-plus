@@ -139,11 +139,12 @@
                       :scope="{ row: item }"
                     ></slot>
                   </div>
+                  <el-icon
+                    v-if="multipleSelection.includes(item)"
+                    class="el-icon-check"
+                    ><SuccessFilled
+                  /></el-icon>
                 </el-card>
-                <i
-                  class="el-icon-check el-icon-success"
-                  v-if="multipleSelection.includes(item)"
-                ></i>
               </div>
             </el-col>
           </template>
@@ -393,7 +394,8 @@ watch(
       (item) =>
         (item.props === "handle" || item.slotName === "handle") && !item.hidden
     );
-  }
+  },
+  { deep: true, immediate: true }
 );
 watch(
   () => props.tableData,
@@ -607,16 +609,17 @@ function selectionCardChange(row) {
   let rowIndex = multipleSelection.findIndex(
     (item) => item[props.rowKey] === row[props.rowKey]
   );
+
   if (rowIndex > -1) {
     multipleSelection.splice(rowIndex, 1);
   } else {
-    multipleSelection.length = 0;
-    multipleSelection.splice(0, 0, ...[...multipleSelection, row]);
+    multipleSelection.push(row);
   }
   selectionChange(multipleSelection, row);
 }
 // 多选
 function selectionChange(multipleSelections, row) {
+  multipleSelections = [...multipleSelections];
   if (props.single) {
     // 单选
     multipleSelection.length = 0;
@@ -628,6 +631,8 @@ function selectionChange(multipleSelections, row) {
         chenTable.value?.toggleRowSelection(item, false);
       }
     });
+    // console.log(multipleSelection, 88, row, isSelectCurrentRow);
+    // return;
     if (isSelectCurrentRow) {
       multipleSelection.splice(0, 0, row);
     }
@@ -866,7 +871,7 @@ defineExpose({ getComponentData, refresh, doLayout, againGetData });
     position: absolute;
     top: 8px;
     right: 3px;
-    font-size: 40;
+    font-size: 20px;
     color: #67c23a;
   }
   .card-empty {
