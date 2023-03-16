@@ -1,6 +1,6 @@
 {
   "name": "el-table-chen-plus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "element-plus 表格分页组件封装 高度自适应 卡片表格切换",
   "keywords": [
     "vue3",

@@ -356,6 +356,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  pageKey: {
+    // 页码键名
+    type: String,
+    default: "",
+  },
+  pageSizeKey: {
+    // 分页键名
+    type: String,
+    default: "",
+  },
 });
 
 let deafultTableSvgIcon = ref(
@@ -490,14 +500,18 @@ function getData() {
     isLoading.value = true;
     let query = null;
     if (typeof props.query === "string") {
-      query = `?page=${pager.currentPage}&size=${pager.defaultPageSize}${
-        props.query ? "&" + props.query : ""
-      }`;
+      query = `?${props.pageKey || elTableChenOptions.pageKey || "page"}=${
+        pager.currentPage
+      }&${props.pageSizeKey || elTableChenOptions.pageSizeKey || "size"}=${
+        pager.defaultPageSize
+      }${props.query ? "&" + props.query : ""}`;
     } else {
       query = {
         ...props.query,
-        pageNo: pager.currentPage,
-        pageSize: pager.defaultPageSize,
+        [props.pageKey || elTableChenOptions.pageKey || "page"]:
+          pager.currentPage,
+        [props.pageSizeKey || elTableChenOptions.pageSizeKey || "size"]:
+          pager.defaultPageSize,
       };
     }
 
@@ -827,7 +841,7 @@ defineExpose({ getComponentData, refresh, doLayout, againGetData });
   color: #282b2e;
 }
 .handle-icons {
-  padding-top: 16px;
+  // padding-top: 16px;
   i {
     font-size: 30px;
     color: #818a90;
